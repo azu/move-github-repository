@@ -1,16 +1,35 @@
 # move-github-repository
 
-Move GitHub repository(Update description &amp;&amp; URL &amp;&amp; default branch).
+It make your repository "301 Moved Permanently".
 
 ## Install
 
 Install with [npm](https://www.npmjs.com/):
 
-    npm install move-github-repository
+    npm install -g move-github-repository
 
 ## Usage
 
-- [ ] Write usage instructions
+
+    Usage
+      $ GH_TOKEN=xxx move-github-repository --description "[[MOVED]]" --homepage http://example.com/new
+
+    Options
+      --description -d Description repository
+      --homepage -h    New URL
+      
+    Env
+      GH_TOKEN=xxx move-github-repository --description "[[MOVED]]" --homepage http://example.com/new
+
+    Examples
+      $ GH_TOKEN=xxx move-github-repository --description "[[MOVED]]" --homepage http://example.com/new
+
+## Example
+
+     GH_TOKEN="xxxx" move-github-repository -d "[301 Moved]" -h "https://github.com/azu/move-github-repository"
+
+
+Result: <https://github.com/azu/movemovemomvomeove>
 
 ## Changelog
 

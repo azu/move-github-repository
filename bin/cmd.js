@@ -7,8 +7,8 @@ const cli = meow(`
       $ GH_TOKEN=xxx move-github-repository --description "[[MOVED]]" --homepage http://example.com/new
 
     Options
-      --description  Description repository
-      --homepage     New URL
+      --description -d Description repository
+      --homepage -h    New URL
       
     Env
       GH_TOKEN=xxx move-github-repository --description "[[MOVED]]" --homepage http://example.com/new
