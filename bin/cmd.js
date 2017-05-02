@@ -29,4 +29,7 @@ const cli = meow(`
  }
  */
 
-moveGitHub(cli.flags);
+moveGitHub(cli.flags).catch(function(error) {
+    console.error(error.message, error.stack);
+    process.exit(1);
+});
