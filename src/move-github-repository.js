@@ -44,6 +44,7 @@ function touchREADME(README) {
 function createMovedBranchAndPush(message, branch) {
     run(`git checkout --orphan "${branch}"`);
     run(`git rm -rf "*"`);
+    run(`git clean -fx`);
     touchREADME(message);
     run("git add .");
     run(`git commit -m "301 Moved Permanently"`);
