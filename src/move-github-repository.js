@@ -40,13 +40,13 @@ function run(command) {
 function touchREADME(README) {
     const README_PATH = path.join(process.cwd(), "README.md");
     fs.writeFileSync(README_PATH, README, "utf-8");
+    run(`git add "${README_PATH}"`);
 }
 function createMovedBranchAndPush(message, branch) {
     run(`git checkout --orphan "${branch}"`);
     run(`git rm -rf "*"`);
     run(`git clean -fx`);
     touchREADME(message);
-    run("git add .");
     run(`git commit -m "301 Moved Permanently"`);
     run(`git push -u origin "${branch}"`);
 }
