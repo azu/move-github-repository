@@ -2,6 +2,13 @@
 
 It make your repository "301 Moved Permanently".
 
+It does:
+
+- Update description && homepage
+- Create "301_moved_permanently" branch that has a README.md
+- Set "301_moved_permanently" as default branch
+    - It aim to preserve exist link
+
 ## Install
 
 Install with [npm](https://www.npmjs.com/):
