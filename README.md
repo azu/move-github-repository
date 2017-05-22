@@ -38,6 +38,13 @@ Install with [npm](https://www.npmjs.com/):
 
 Result: <https://github.com/azu/movemovemomvomeove>
 
+Also:
+
+- [textlint/txt-to-ast: [CAUTION] This repository is MOVED to monorepo.](https://github.com/textlint/txt-to-ast "textlint/txt-to-ast: [CAUTION] This repository is MOVED to monorepo.")
+- [textlint/textlint-plugin-text: [CAUTION] This repository is MOVED to monorepo.](https://github.com/textlint/textlint-plugin-text "textlint/textlint-plugin-text: [CAUTION] This repository is MOVED to monorepo.")
+- [textlint/textlint-plugin-markdown: [CAUTION] This repository is MOVED to monorepo.](https://github.com/textlint/textlint-plugin-markdown "textlint/textlint-plugin-markdown: [CAUTION] This repository is MOVED to monorepo.")
+
+
 ## Changelog
 
 See [Releases page](https://github.com/azu/move-github-repository/releases).
