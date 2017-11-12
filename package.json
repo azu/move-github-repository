@@ -19,7 +19,10 @@
   "scripts": {
     "build": "cross-env NODE_ENV=production babel src --out-dir lib --source-maps",
     "watch": "babel src --out-dir lib --watch --source-maps",
-    "prepublish": "npm run --if-present build"
+    "prepublish": "npm run --if-present build",
+    "prettier": "prettier --write '**/*.{js,jsx,ts,tsx,css}'",
+    "precommit": "lint-staged",
+    "postcommit": "git reset"
   },
   "keywords": [
     "github",
@@ -43,14 +46,27 @@
     "babel-preset-power-assert": "^1.0.0",
     "babel-register": "^6.24.1",
     "cross-env": "^4.0.0",
+    "husky": "^0.14.3",
+    "lint-staged": "^5.0.0",
     "mocha": "^3.3.0",
-    "power-assert": "^1.4.2"
+    "power-assert": "^1.4.2",
+    "prettier": "^1.8.2"
   },
   "dependencies": {
     "git-remote-origin-url": "^2.0.0",
-    "github": "^9.2.0",
-    "hosted-git-info": "^2.4.2",
+    "hosted-git-info": "^2.5.0",
     "meow": "^3.7.0",
+    "node-fetch": "^1.7.3",
     "shelljs": "^0.7.7"
+  },
+  "prettier": {
+    "printWidth": 120,
+    "tabWidth": 4
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx,css}": [
+      "prettier --write",
+      "git add"
+    ]
   }
 }

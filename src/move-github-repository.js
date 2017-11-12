@@ -3,45 +3,49 @@
 const fs = require("fs");
 const path = require("path");
 const assert = require("assert");
-const shell = require('shelljs');
-if (!shell.which('git')) {
-    shell.echo('Sorry, this script requires git');
+const shell = require("shelljs");
+if (!shell.which("git")) {
+    shell.echo("Sorry, this script requires git");
     shell.exit(1);
 }
-const GitHubApi = require("github");
+const fetch = require("node-fetch");
 const getRemoteOriginUrl = require("git-remote-origin-url");
 const fromUrl = require("hosted-git-info").fromUrl;
 /**
  * @returns {Promise.<{ owner: string?, repo: string?}>}
  */
 const getRepositoryInfo = () => {
-    return getRemoteOriginUrl().then(url => {
-        return fromUrl(url);
-    }).then(result => {
-        if (!result) {
+    return getRemoteOriginUrl()
+        .then(url => {
+            return fromUrl(url);
+        })
+        .then(result => {
+            if (!result) {
+                return {
+                    owner: null,
+                    repo: null
+                };
+            }
             return {
-                owner: null,
-                repo: null
+                owner: result.user,
+                repo: result.project
             };
-        }
-        return {
-            owner: result.user,
-            repo: result.project
-        };
-    });
+        });
 };
 
 function run(command) {
     if (shell.exec(command).code !== 0) {
-        shell.echo('Error:' + command);
+        shell.echo("Error:" + command);
         shell.exit(1);
     }
 }
+
 function touchREADME(README) {
     const README_PATH = path.join(process.cwd(), "README.md");
     fs.writeFileSync(README_PATH, README, "utf-8");
     run(`git add "${README_PATH}"`);
 }
+
 function createMovedBranchAndPush(message, branch) {
     run(`git checkout --orphan "${branch}"`);
     run(`git rm -rf "*"`);
@@ -50,6 +54,7 @@ function createMovedBranchAndPush(message, branch) {
     run(`git commit -m "301 Moved Permanently"`);
     run(`git push -u origin "${branch}"`);
 }
+
 module.exports = function({ description, homepage, GH_TOKEN = process.env.GH_TOKEN }) {
     assert(description, "--description needed");
     assert(homepage, "--homepage needed");
@@ -62,24 +67,25 @@ module.exports = function({ description, homepage, GH_TOKEN = process.env.GH_TOK
         }
         const message = `# This repository has moved to:\n## <${homepage}>`;
         createMovedBranchAndPush(message, branch);
-
-
-        const github = new GitHubApi({
-            debug: process.env.NODE_ENV === "development",
-            timeout: 5000
-        });
-        github.authenticate({
-            type: "token",
-            token: GH_TOKEN,
-        });
-        return github.repos.edit({
-            owner,
-            repo,
-            name: repo,
-            description,
-            homepage,
-            archived: true,
-            default_branch: branch
-        });
+        const pass = function(response) {
+            if (!response.ok) {
+                return Promise.reject(new Error(response.statusText));
+            }
+            return Promise.resolve(response);
+        };
+        return fetch(`https://api.github.com/repos/${owner}/${repo}`, {
+            method: "POST",
+            headers: {
+                Authorization: "token " + GH_TOKEN
+            },
+            body: JSON.stringify({
+                description,
+                homepage,
+                archived: true,
+                default_branch: branch
+            })
+        })
+            .then(pass)
+            .then(res => res.json());
     });
 };
