@@ -78,6 +78,7 @@ module.exports = function({ description, homepage, GH_TOKEN = process.env.GH_TOK
             name: repo,
             description,
             homepage,
+            archived: true,
             default_branch: branch
         });
     });
